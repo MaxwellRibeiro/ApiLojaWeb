@@ -40,6 +40,7 @@ namespace LojaWebApi.Controllers
                     Descricao = "I am a very simple card. I am good at containing small bits of information."
                 }
             };
+
             return produtos;
         }
     }

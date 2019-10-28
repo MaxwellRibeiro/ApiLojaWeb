@@ -1,7 +1,11 @@
 ﻿using LojaWebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Web.Mvc;
 
 namespace LojaWebApi.Controllers
 {
@@ -42,6 +46,33 @@ namespace LojaWebApi.Controllers
             };
 
             return produtos;
+        }
+
+        [HttpPost]
+        [Route("api/produtos/UploadFiles")]
+        public string UploadFiles()
+        {
+            //var myFile = HttpContext.Current.Request.Params["myFile"];
+            //var jsonContent = Request.Content.ReadAsStringAsync().Result;
+
+            //string ok = "";
+
+            var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+
+                var path = Path.Combine(
+                    HttpContext.Current.Server.MapPath("~/uploads"),
+                    fileName
+                );
+
+                file.SaveAs(path);
+            }
+
+            return file != null ? "/uploads/" + file.FileName : null;
+
         }
     }
 }

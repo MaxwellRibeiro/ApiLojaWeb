@@ -1,11 +1,19 @@
 ﻿using LojaWebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
+using Dapper;
+using Dapper.Contrib.Extensions;
+using MySql.Data.MySqlClient;
 
 namespace LojaWebApi.Controllers
 {
@@ -73,10 +81,21 @@ namespace LojaWebApi.Controllers
 
         [HttpPost]
         [Route("api/produtos/Insert")]
-        public Produto Insert(Produto produto)
+        public HttpResponseMessage Insert(Produto produto)
         {
-            produto.Id = 1;
-            return produto;
+            try
+            {
+                IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
+                db.Open();
+                db.Insert(produto);
+                db.Close();
+
+                return Request.CreateResponse(HttpStatusCode.OK, produto);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace LojaWebApi.Controllers
     {
         public List<Produto> Get()
         {
+
             var produtos = new List<Produto>
             {
                 new Produto

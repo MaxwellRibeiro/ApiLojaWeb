@@ -19,28 +19,28 @@ namespace LojaWebApi.Controllers
                 {
                     Id        = 1,
                     Nome      = "Notebook Samsung",
-                    Foto      = "https://images-americanas.b2w.io/produtos/01/00/img12/134412/9/134412967_1GG.jpg",
+                    UrlFoto      = "https://images-americanas.b2w.io/produtos/01/00/img12/134412/9/134412967_1GG.jpg",
                     Descricao = "Notebook Samsung Expert X30 Intel Core I5 Quad-core 8GB 1TB Tela LED HD 15.6” Windows 10 Home - Cinza."
                 },
                 new Produto
                 {
                     Id        = 2,
                     Nome      = "Mcleod  Mueller",
-                    Foto      = "https://images-americanas.b2w.io/produtos/01/00/item/124651/3/124651374_1GG.jpg",
+                    UrlFoto      = "https://images-americanas.b2w.io/produtos/01/00/item/124651/3/124651374_1GG.jpg",
                     Descricao = "Fogão Piso Consul 4 Bocas CFO4N Branco Bivolt."
                 },
                 new Produto
                 {
                     Id        = 3,
                     Nome      = "Aguirre  Ellis",
-                    Foto      = "https://www.idealmarketing.com.br/blog/wp-content/uploads/2018/02/produto.png",
+                    UrlFoto      = "https://www.idealmarketing.com.br/blog/wp-content/uploads/2018/02/produto.png",
                     Descricao = "I am a very simple card. I am good at containing small bits of information."
                 },
                 new Produto
                 {
                     Id        = 4,
                     Nome      = "Cook  Tyson",
-                    Foto      = "https://www.idealmarketing.com.br/blog/wp-content/uploads/2018/02/produto.png",
+                    UrlFoto      = "https://www.idealmarketing.com.br/blog/wp-content/uploads/2018/02/produto.png",
                     Descricao = "I am a very simple card. I am good at containing small bits of information."
                 }
             };
@@ -52,11 +52,6 @@ namespace LojaWebApi.Controllers
         [Route("api/produtos/UploadFiles")]
         public string UploadFiles()
         {
-            //var myFile = HttpContext.Current.Request.Params["myFile"];
-            //var jsonContent = Request.Content.ReadAsStringAsync().Result;
-
-            //string ok = "";
-
             var file = HttpContext.Current.Request.Files.Count > 0 ? HttpContext.Current.Request.Files[0] : null;
 
             if (file != null && file.ContentLength > 0)
@@ -73,6 +68,14 @@ namespace LojaWebApi.Controllers
 
             return file != null ? "/uploads/" + file.FileName : null;
 
+        }
+
+        [HttpPost]
+        [Route("api/produtos/Insert")]
+        public Produto Insert(Produto produto)
+        {
+            produto.Id = 1;
+            return produto;
         }
     }
 }

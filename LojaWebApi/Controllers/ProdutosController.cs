@@ -9,52 +9,27 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Mvc;
-using Dapper;
 using Dapper.Contrib.Extensions;
+using LojaWebApi.Repositorio;
 using MySql.Data.MySqlClient;
 
 namespace LojaWebApi.Controllers
 {
     public class ProdutosController : ApiController
     {
-        public List<Produto> Get()
+        public HttpResponseMessage Get()
         {
-
-            var produtos = new List<Produto>
+            try
             {
-                new Produto
-                {
-                    Id        = 1,
-                    Nome      = "Notebook Samsung",
-                    UrlFoto      = "https://images-americanas.b2w.io/produtos/01/00/img12/134412/9/134412967_1GG.jpg",
-                    Descricao = "Notebook Samsung Expert X30 Intel Core I5 Quad-core 8GB 1TB Tela LED HD 15.6” Windows 10 Home - Cinza."
-                },
-                new Produto
-                {
-                    Id        = 2,
-                    Nome      = "Mcleod  Mueller",
-                    UrlFoto      = "https://images-americanas.b2w.io/produtos/01/00/item/124651/3/124651374_1GG.jpg",
-                    Descricao = "Fogão Piso Consul 4 Bocas CFO4N Branco Bivolt."
-                },
-                new Produto
-                {
-                    Id        = 3,
-                    Nome      = "Aguirre  Ellis",
-                    UrlFoto      = "https://www.idealmarketing.com.br/blog/wp-content/uploads/2018/02/produto.png",
-                    Descricao = "I am a very simple card. I am good at containing small bits of information."
-                },
-                new Produto
-                {
-                    Id        = 4,
-                    Nome      = "Cook  Tyson",
-                    UrlFoto      = "https://www.idealmarketing.com.br/blog/wp-content/uploads/2018/02/produto.png",
-                    Descricao = "I am a very simple card. I am good at containing small bits of information."
-                }
-            };
+                ProdutoRep rep = new ProdutoRep();
+                var lista = rep.BuscaProdutos();
 
-            return produtos;
+                return Request.CreateResponse(HttpStatusCode.OK, lista);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
         }
 
         [HttpPost]

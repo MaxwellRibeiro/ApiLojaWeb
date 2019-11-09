@@ -73,7 +73,7 @@ namespace LojaWebApi.Repositorio
             }
         }
 
-        public static dynamic Insert<T>(T entity) where T : class
+        public dynamic Insert<T>(T entity) where T : class
         {
             IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
             db.Open();

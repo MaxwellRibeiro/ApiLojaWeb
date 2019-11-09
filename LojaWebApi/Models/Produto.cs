@@ -7,6 +7,7 @@ namespace LojaWebApi.Models
     {
         [Key]
         public int Id { get; set; }
+        public int IdLogin { get; set; }
         public string Nome { get; set; }
         public string UrlFoto { get; set; }
         public string NomeLoja { get; set; }

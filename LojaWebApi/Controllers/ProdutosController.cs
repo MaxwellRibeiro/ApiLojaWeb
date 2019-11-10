@@ -88,6 +88,28 @@ namespace LojaWebApi.Controllers
 
         }
 
+
+        [HttpPost]
+        [Route("api/produtos/Insert")]
+        public HttpResponseMessage Insert(Produto produto)
+        {
+
+            try
+            {
+                IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
+                db.Open();
+                db.Insert(produto);
+                db.Close();
+
+                return Request.CreateResponse(HttpStatusCode.OK, produto.Id > 0);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
+
+        }
+
         [HttpPost]
         [Route("api/produtos/Update")]
         public HttpResponseMessage Update(Produto produto)
@@ -97,6 +119,26 @@ namespace LojaWebApi.Controllers
                 IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
                 db.Open();
                 bool ok = db.Update(produto);
+                db.Close();
+
+                return Request.CreateResponse(HttpStatusCode.OK, ok);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/produtos/Delete")]
+        public HttpResponseMessage Delete(Produto produto)
+        {
+            try
+            {
+                IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
+                db.Open();
+                bool ok = db.Delete(produto);
                 db.Close();
 
                 return Request.CreateResponse(HttpStatusCode.OK, ok);

@@ -22,9 +22,9 @@ namespace LojaWebApi.Controllers
             try
             {
                 LoginRep rep = new LoginRep();
-                var lista = rep.BuscaLoginPorId(idlogin);
+                var login = rep.BuscaLoginPorId(idlogin);
 
-                return Request.CreateResponse(HttpStatusCode.OK, lista);
+                return Request.CreateResponse(HttpStatusCode.OK, login);
             }
             catch (Exception x)
             {

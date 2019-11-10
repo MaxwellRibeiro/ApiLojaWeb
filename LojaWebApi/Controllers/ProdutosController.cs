@@ -32,6 +32,40 @@ namespace LojaWebApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/produtos/BuscaProdutoPorId")]
+        public HttpResponseMessage BuscaProdutoPorId(int idProduto)
+        {
+            try
+            {
+                ProdutoRep rep = new ProdutoRep();
+                var produto = rep.BuscaProdutoPorId(idProduto);
+
+                return Request.CreateResponse(HttpStatusCode.OK, produto);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/produtos/BuscaProdutosPorLogin")]
+        public HttpResponseMessage BuscaProdutosPorLogin(int idLogin)
+        {
+            try
+            {
+                ProdutoRep rep = new ProdutoRep();
+                var lista = rep.BuscaProdutosPorLogin(idLogin);
+
+                return Request.CreateResponse(HttpStatusCode.OK, lista);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/produtos/UploadFiles")]
         public string UploadFiles()
@@ -55,17 +89,17 @@ namespace LojaWebApi.Controllers
         }
 
         [HttpPost]
-        [Route("api/produtos/Insert")]
-        public HttpResponseMessage Insert(Produto produto)
+        [Route("api/produtos/Update")]
+        public HttpResponseMessage Update(Produto produto)
         {
             try
             {
                 IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
                 db.Open();
-                db.Insert(produto);
+                bool ok = db.Update(produto);
                 db.Close();
 
-                return Request.CreateResponse(HttpStatusCode.OK, produto);
+                return Request.CreateResponse(HttpStatusCode.OK, ok);
             }
             catch (Exception x)
             {

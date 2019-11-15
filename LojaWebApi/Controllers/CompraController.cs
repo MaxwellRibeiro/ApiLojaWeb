@@ -48,5 +48,24 @@ namespace LojaWebApi.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("api/Compra/Delete")]
+        public HttpResponseMessage Delete(Compra Compra)
+        {
+            try
+            {
+                IDbConnection db = new MySqlConnection(ConfigurationManager.ConnectionStrings["local"].ConnectionString);
+                db.Open();
+                bool ok = db.Delete(Compra);
+                db.Close();
+
+                return Request.CreateResponse(HttpStatusCode.OK, ok);
+            }
+            catch (Exception x)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, x.Message);
+            }
+        }
     }
 }
